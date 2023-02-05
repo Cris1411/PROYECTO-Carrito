@@ -1,8 +1,8 @@
 // VARIABLES
 const carrito = document.querySelector("#carrito");
+const listaCursos = document.querySelector("#lista-cursos");
 const contenedorCarrito = document.querySelector("#lista-carrito tbody");  //tabla de carrito
 const vaciarCarritoBtn = document.querySelector("#vaciar-carrito");
-const listaCursos = document.querySelector("#lista-cursos");
 let articulosCarrito = [];    // array acumulador para agregarCurso
 
 cargarEventLsiteners()   //mandamos a llamar la funcion
@@ -20,6 +20,13 @@ function cargarEventLsiteners(){
           articulosCarrito = []; // reseteamos el arreglo de cursos
           limpiarHTML(); // eliminamos todo el HTML
      } )
+     
+     //Muestra los cursos del Local Storage
+     document.addEventListener('DOMContentLoaded', ()=>{
+          articulosCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+          carritoHTML();
+     })
 };
 
 //FUNCIONES
@@ -105,6 +112,13 @@ function carritoHTML(){       //generar HTML basado en el carrito de compras
           // Agrega el HTML del carrito en el tbody
           contenedorCarrito.appendChild(row)
      });
+
+     //Sincronizar con LocalStorage
+     sincronizarStorage();
+};
+
+function sincronizarStorage(){
+     localStorage.setItem('carrito', JSON.stringify(articulosCarrito));
 };
 
 // Elimina los cursos del tbody
